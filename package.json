@@ -1,7 +1,7 @@
 {
   "name": "language-zepto",
   "main": "./lib/language-zepto",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Zepto Syntax Highlighting for Atom",
   "keywords": [
     "language",
