@@ -1,0 +1,274 @@
+'scopeName': 'source.zepto'
+'fileTypes': [
+  'zp'
+]
+'foldingStartMarker': '\\(\\s*$'
+'foldingStopMarker': '^\\s*\\)'
+'name': 'zepto'
+'patterns': [
+  {
+    'include': '#comment'
+  }
+  {
+    'include': '#character'
+  }
+  {
+    'include': '#lang-comment'
+  }
+  {
+    'include': '#quoted-sexp'
+  }
+  {
+    'include': '#sexp'
+  }
+  {
+    'include': '#keyfn'
+  }
+  {
+    'include': '#string'
+  }
+  {
+    'include': '#vector'
+  }
+  {
+    'include': '#map'
+  }
+  {
+    'include': '#var'
+  }
+  {
+    'include': '#constants'
+  }
+  {
+    'include': '#namespace-symbol'
+  }
+  {
+    'include': '#symbol'
+  }
+  {
+    'include': '#whitespace'
+  }
+]
+'repository':
+  'comment':
+    'captures':
+      '1':
+        'name': 'punctuation.definition.comment.zepto'
+    'match': '(;).*$\\n?'
+    'name': 'comment.line.semicolon.zepto'
+  'constants':
+    'patterns': [
+      {
+        'match': '(nil)(?=(\\s|\\)|\\]|\\}))'
+        'name': 'constant.language.nil.zepto'
+      }
+      {
+        'match': '(#t|#f)'
+        'name': 'constant.language.boolean.zepto'
+      }
+      {
+        'match': '(-?\\d+/\\d+)'
+        'name': 'constant.numeric.ratio.zepto'
+      }
+      {
+        'match': '(-?#x[0-9a-fA-F]+)'
+        'name': 'constant.numeric.hexadecimal.zepto'
+      }
+      {
+        'match': '(-?#o[0-8]+)'
+        'name': 'constant.numeric.octal.zepto'
+      }
+      {
+        'match': '(-?#b[0-1]+)'
+        'name': 'constant.numeric.binary.zepto'
+      }
+      {
+        'match': '(-?\\d+\\.\\d+([eE][+-]?\\d+)?M)'
+        'name': 'constant.numeric.bigdecimal.zepto'
+      }
+      {
+        'match': '(-?\\d+\\.\\d+([eE][+-]?\\d+)?)'
+        'name': 'constant.numeric.double.zepto'
+      }
+      { # separating the pattern for reuse
+        'include': '#keyword'
+      }
+    ]
+  'character':
+    'match': '#\\\\(alarm|backspace|delete|escape|newline|carriage|null|return|space|tab|.)'
+    'name': 'constant.character.zepto'
+  'keyword':
+    'match': '(?<=(\\s|\\(|\\[|\\{)):[a-zA-Z0-9\\#\\.\\-\\_\\:\\+\\=\\>\\<\\/\\!\\?\\*]+(?=(\\s|\\)|\\]|\\}|\\,))'
+    'name': 'constant.keyword.zepto'
+  'keyfn':
+    'patterns': [
+      {
+        'match': '(?<=(\\s|\\(|\\[|\\{))(if|when|unless|for(-[-a-z]*)?|cond|do|let(-[-a-z\\?]*)?|lambda|case-lambda|([a-z]*case))(?=(\\s|\\)|\\]|\\}))'
+        'name': 'storage.control.zepto'
+      }
+      {
+        'match': '(?<=(\\s|\\(|\\[|\\{))module|import|import-all|load|(define(-syntax)?)(?=(\\s|\\)|\\]|\\}))'
+        'name': 'keyword.control.zepto'
+      }
+    ]
+  'lang-comment':
+    'captures':
+      '1':
+        'name': 'punctuation.definition.comment.lang.clojure'
+    'match': '^(\\#lang).*$\\n?'
+    'name': 'comment.line.semicolon.clojure'
+  'map':
+    'begin': '(#\\{)'
+    'beginCaptures':
+      '1':
+        'name': 'punctuation.section.map.begin.zepto'
+    'end': '(\\})'
+    'endCaptures':
+      '1':
+        'name': 'punctuation.section.map.end.zepto'
+    'name': 'meta.map.zepto'
+    'patterns': [
+      {
+        'include': '$self'
+      }
+    ]
+  'quoted-sexp':
+    'begin': '([\'``]\\()'
+    'beginCaptures':
+      '1':
+        'name': 'punctuation.section.expression.begin.zepto'
+    'end': '(\\))(\\n)?'
+    'endCaptures':
+      '1':
+        'name': 'punctuation.section.expression.end.zepto'
+      '2':
+        'name': 'meta.after-expression.zepto'
+    'name': 'meta.quoted-expression.zepto'
+    'patterns': [
+      {
+        'include': '$self'
+      }
+    ]
+  'sexp':
+    'begin': '(\\()'
+    'beginCaptures':
+      '1':
+        'name': 'punctuation.section.expression.begin.zepto'
+    'end': '(\\))(\\n)?'
+    'endCaptures':
+      '1':
+        'name': 'punctuation.section.expression.end.zepto'
+      '2':
+        'name': 'meta.after-expression.zepto'
+    'name': 'meta.expression.zepto'
+    'patterns': [
+      {
+        'begin': '(?<=\\()(define|lambda|define-syntax|syntax-rules|define-struct|defprotocol|defimpl)\\s+'
+        'beginCaptures':
+          '1':
+            'name': 'keyword.control.zepto'
+        'end': '(?=\\))'
+        'name': 'meta.definition.global.zepto'
+        'patterns': [
+          {
+            # there may be some metadata before an actual definition
+            'include': '#metadata'
+          }
+          { # dynamic variables are rendered diferently
+            'include': '#dynamic-variables'
+          }
+          {
+            # recognizing a symbol as being defined here
+            # copied and pasted from #symbol, screw it
+            'match': '([\\w\\.\\-\\_\\:\\+\\=\\>\\<\\!\\?\\*][\\w\\.\\-\\_\\:\\+\\=\\>\\<\\!\\?\\*\\d]+)'
+            'name': 'entity.global.zepto'
+          }
+          {
+            'include': '$self'
+          }
+        ]
+      }
+      {
+        'include': '#keyfn'
+      }
+      {
+        'include': '#constants'
+      }
+      {
+        'include': '#vector'
+      }
+      {
+        'include': '#map'
+      }
+      {
+        'include': '#sexp'
+      }
+      {
+        'match': '(?<=\\()(.+?)(?=\\s|\\))'
+        'captures':
+          '1':
+            'name': 'entity.name.function.zepto'
+        'patterns': [
+          {
+            'include': '$self'
+          }
+        ]
+      }
+      {
+        'include': '$self'
+      }
+    ]
+  'string':
+    'begin': '(?<!\\\\)(")'
+    'beginCaptures':
+      '1':
+        'name': 'punctuation.definition.string.begin.zepto'
+    'end': '(")'
+    'endCaptures':
+      '1':
+        'name': 'punctuation.definition.string.end.zepto'
+    'name': 'string.quoted.double.zepto'
+    'patterns': [
+      {
+        'match': '\\\\.'
+        'name': 'constant.character.escape.zepto'
+      }
+    ]
+  'namespace-symbol':
+    'patterns': [
+      { # copied from #symbol, plus a : at the end. Matches the "app/" part of
+        # "app:*config*"
+        'match': '([\\w\\.\\-\\_\\:\\+\\=\\>\\<\\!\\?\\*][\\w\\.\\-\\_\\:\\+\\=\\>\\<\\!\\?\\*\\d]+):'
+        'captures':
+          '1':
+            'name': 'meta.symbol.namespace.zepto'
+      }
+    ]
+  'symbol':
+    'patterns': [
+      {
+        'match': '([\\w\\.\\-\\_\\:\\+\\=\\>\\<\\!\\?\\*][\\w\\.\\-\\_\\:\\+\\=\\>\\<\\!\\?\\*\\d]+)'
+        'name': 'meta.symbol.zepto'
+      }
+    ]
+  'var':
+    'match': '(?<=(\\s|\\(|\\[|\\{)\\#)\'[a-zA-Z0-9\\.\\-\\_\\:\\+\\=\\>\\<\\/\\!\\?\\*]+(?=(\\s|\\)|\\]|\\}))'
+    'name': 'meta.var.zepto'
+  'vector':
+    'begin': '(\\{)'
+    'beginCaptures':
+      '1':
+        'name': 'punctuation.section.vector.begin.zepto'
+    'end': '(\\})'
+    'endCaptures':
+      '1':
+        'name': 'punctuation.section.vector.end.zepto'
+    'name': 'meta.vector.zepto'
+    'patterns': [
+      {
+        'include': '$self'
+      }
+    ]
+  'whitespace':
+    'match': '\\s+$'
+    'name': 'invalid.trailing-whitespace'
