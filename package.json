@@ -8,9 +8,6 @@
     "syntax",
     "highlighting"
   ],
-  "activationCommands": {
-    "atom-workspace": "language-zepto:toggle"
-  },
   "repository": "https://github.com/hellerve/language-zepto",
   "license": "MIT",
   "engines": {

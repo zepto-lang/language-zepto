@@ -3,7 +3,7 @@ describe "Zepto grammar", ->
 
   beforeEach ->
     waitsForPromise ->
-      atom.packages.activatePackage("language-zepto")
+       atom.packages.activatePackage("language-zepto")
 
     runs ->
       grammar = atom.grammars.grammarForScopeName("source.zepto")
@@ -19,8 +19,8 @@ describe "Zepto grammar", ->
 
   it "tokenizes lang definitions", ->
     {tokens} = grammar.tokenizeLine "#lang zepto"
-    expect(tokens[0]).toEqual value: "#", scopes: ["source.zepto", "comment.line.semicolon.zepto", "punctuation.definition.comment.lang.zepto"]
-    expect(tokens[1]).toEqual value: "/usr/bin/env zepto", scopes: ["source.zepto", "comment.line.semicolon.zepto"]
+    expect(tokens[0]).toEqual value: "#lang ", scopes: ["source.zepto", "comment.line.semicolon.zepto", "punctuation.definition.comment.lang.zepto"]
+    expect(tokens[1]).toEqual value: "zepto", scopes: ["source.zepto", "comment.line.semicolon.zepto"]
 
   it "tokenizes strings", ->
     {tokens} = grammar.tokenizeLine '"foo bar"'
@@ -96,9 +96,9 @@ describe "Zepto grammar", ->
       expect(tokens[1]).toEqual value: "foo", scopes: ["source.zepto", "meta.expression.zepto", "entity.name.function.zepto"]
 
   it "tokenizes symbols", ->
-    {tokens} = grammar.tokenizeLine "foo/bar"
+    {tokens} = grammar.tokenizeLine "foo:bar"
     expect(tokens[0]).toEqual value: "foo", scopes: ["source.zepto", "meta.symbol.namespace.zepto"]
-    expect(tokens[1]).toEqual value: "/", scopes: ["source.zepto"]
+    expect(tokens[1]).toEqual value: ":", scopes: ["source.zepto"]
     expect(tokens[2]).toEqual value: "bar", scopes: ["source.zepto", "meta.symbol.zepto"]
 
   it "tokenizes trailing whitespace", ->

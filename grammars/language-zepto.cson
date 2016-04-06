@@ -83,12 +83,12 @@
         'name': 'constant.numeric.binary.zepto'
       }
       {
-        'match': '(-?\\d+\\.\\d+([eE][+-]?\\d+)?M)'
-        'name': 'constant.numeric.bigdecimal.zepto'
-      }
-      {
         'match': '(-?\\d+\\.\\d+([eE][+-]?\\d+)?)'
         'name': 'constant.numeric.double.zepto'
+      }
+      {
+        'match': '(-?\\d+)'
+        'name': 'constant.numeric.long.zepto'
       }
       { # separating the pattern for reuse
         'include': '#keyword'
@@ -107,16 +107,16 @@
         'name': 'storage.control.zepto'
       }
       {
-        'match': '(?<=(\\s|\\(|\\[|\\{))module|import|import-all|load|(define(-syntax)?)(?=(\\s|\\)|\\]|\\}))'
+        'match': '(?<=(\\s|\\(|\\[|\\{))module|import-all|import|load|(define(-(struct|syntax))?)|defimpl|defprotocol(?=(\\s|\\)|\\]|\\}))'
         'name': 'keyword.control.zepto'
       }
     ]
   'lang-comment':
     'captures':
       '1':
-        'name': 'punctuation.definition.comment.lang.clojure'
-    'match': '^(\\#lang).*$\\n?'
-    'name': 'comment.line.semicolon.clojure'
+        'name': 'punctuation.definition.comment.lang.zepto'
+    'match': '^(\\#lang\\s+).*$\\n?'
+    'name': 'comment.line.semicolon.zepto'
   'map':
     'begin': '(#\\{)'
     'beginCaptures':
