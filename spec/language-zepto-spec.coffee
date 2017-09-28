@@ -3,7 +3,7 @@ describe "Zepto grammar", ->
 
   beforeEach ->
     waitsForPromise ->
-      atom.packages.activatePackage("language-zepto")
+       atom.packages.activatePackage("language-zepto")
 
     runs ->
       grammar = atom.grammars.grammarForScopeName("source.zepto")
@@ -19,8 +19,8 @@ describe "Zepto grammar", ->
 
   it "tokenizes lang definitions", ->
     {tokens} = grammar.tokenizeLine "#lang zepto"
-    expect(tokens[0]).toEqual value: "#", scopes: ["source.zepto", "comment.line.semicolon.zepto", "punctuation.definition.comment.lang.zepto"]
-    expect(tokens[1]).toEqual value: "/usr/bin/env zepto", scopes: ["source.zepto", "comment.line.semicolon.zepto"]
+    expect(tokens[0]).toEqual value: "#lang ", scopes: ["source.zepto", "comment.line.semicolon.zepto", "punctuation.definition.comment.lang.zepto"]
+    expect(tokens[1]).toEqual value: "zepto", scopes: ["source.zepto", "comment.line.semicolon.zepto"]
 
   it "tokenizes strings", ->
     {tokens} = grammar.tokenizeLine '"foo bar"'
@@ -96,9 +96,9 @@ describe "Zepto grammar", ->
       expect(tokens[1]).toEqual value: "foo", scopes: ["source.zepto", "meta.expression.zepto", "entity.name.function.zepto"]
 
   it "tokenizes symbols", ->
-    {tokens} = grammar.tokenizeLine "foo/bar"
+    {tokens} = grammar.tokenizeLine "foo:bar"
     expect(tokens[0]).toEqual value: "foo", scopes: ["source.zepto", "meta.symbol.namespace.zepto"]
-    expect(tokens[1]).toEqual value: "/", scopes: ["source.zepto"]
+    expect(tokens[1]).toEqual value: ":", scopes: ["source.zepto"]
     expect(tokens[2]).toEqual value: "bar", scopes: ["source.zepto", "meta.symbol.zepto"]
 
   it "tokenizes trailing whitespace", ->
@@ -109,7 +109,7 @@ describe "Zepto grammar", ->
     # Entire expression on one line.
     {tokens} = grammar.tokenizeLine "#{startsWith}foo, bar#{endsWith}"
 
-    [start, mid..., end, after] = tokens
+    [start, mid..., end, whitespace] = tokens
 
     expect(start).toEqual value: startsWith, scopes: ["source.zepto", "meta.#{metaScope}.zepto", "punctuation.section.#{puncScope}.begin.zepto"]
     expect(end).toEqual value: endsWith, scopes: ["source.zepto", "meta.#{metaScope}.zepto", "punctuation.section.#{puncScope}.end.zepto"]
@@ -120,14 +120,14 @@ describe "Zepto grammar", ->
     # Expression broken over multiple lines.
     tokens = grammar.tokenizeLines("#{startsWith}foo\n bar#{endsWith}")
 
-    [start, mid..., after] = tokens[0]
+    [start, mid...] = tokens[0]
 
     expect(start).toEqual value: startsWith, scopes: ["source.zepto", "meta.#{metaScope}.zepto", "punctuation.section.#{puncScope}.begin.zepto"]
 
     for token in mid
       expect(token.scopes.slice(0, 2)).toEqual ["source.zepto", "meta.#{metaScope}.zepto"]
 
-    [mid..., end, after] = tokens[1]
+    [mid..., end] = tokens[1]
 
     expect(end).toEqual value: endsWith, scopes: ["source.zepto", "meta.#{metaScope}.zepto", "punctuation.section.#{puncScope}.end.zepto"]
 

@@ -1,16 +1,13 @@
 {
   "name": "language-zepto",
   "main": "./lib/language-zepto",
-  "version": "0.1.0",
+  "version": "0.4.0",
   "description": "Zepto Syntax Highlighting for Atom",
   "keywords": [
     "language",
     "syntax",
     "highlighting"
   ],
-  "activationCommands": {
-    "atom-workspace": "language-zepto:toggle"
-  },
   "repository": "https://github.com/hellerve/language-zepto",
   "license": "MIT",
   "engines": {
