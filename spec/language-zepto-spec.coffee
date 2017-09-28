@@ -109,7 +109,7 @@ describe "Zepto grammar", ->
     # Entire expression on one line.
     {tokens} = grammar.tokenizeLine "#{startsWith}foo, bar#{endsWith}"
 
-    [start, mid..., end, after] = tokens
+    [start, mid..., end, whitespace] = tokens
 
     expect(start).toEqual value: startsWith, scopes: ["source.zepto", "meta.#{metaScope}.zepto", "punctuation.section.#{puncScope}.begin.zepto"]
     expect(end).toEqual value: endsWith, scopes: ["source.zepto", "meta.#{metaScope}.zepto", "punctuation.section.#{puncScope}.end.zepto"]
@@ -120,14 +120,14 @@ describe "Zepto grammar", ->
     # Expression broken over multiple lines.
     tokens = grammar.tokenizeLines("#{startsWith}foo\n bar#{endsWith}")
 
-    [start, mid..., after] = tokens[0]
+    [start, mid...] = tokens[0]
 
     expect(start).toEqual value: startsWith, scopes: ["source.zepto", "meta.#{metaScope}.zepto", "punctuation.section.#{puncScope}.begin.zepto"]
 
     for token in mid
       expect(token.scopes.slice(0, 2)).toEqual ["source.zepto", "meta.#{metaScope}.zepto"]
 
-    [mid..., end, after] = tokens[1]
+    [mid..., end] = tokens[1]
 
     expect(end).toEqual value: endsWith, scopes: ["source.zepto", "meta.#{metaScope}.zepto", "punctuation.section.#{puncScope}.end.zepto"]
 

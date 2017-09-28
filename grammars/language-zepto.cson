@@ -54,7 +54,7 @@
     'captures':
       '1':
         'name': 'punctuation.definition.comment.zepto'
-    'match': '(;).*$\\n?'
+    'match': '(;).*$'
     'name': 'comment.line.semicolon.zepto'
   'constants':
     'patterns': [
@@ -115,7 +115,7 @@
     'captures':
       '1':
         'name': 'punctuation.definition.comment.lang.zepto'
-    'match': '^(\\#lang\\s+).*$\\n?'
+    'match': '^(\\#lang\\s+).*$'
     'name': 'comment.line.semicolon.zepto'
   'map':
     'begin': '(#\\{)'
@@ -137,12 +137,10 @@
     'beginCaptures':
       '1':
         'name': 'punctuation.section.expression.begin.zepto'
-    'end': '(\\))(\\n)?'
+    'end': '(\\))'
     'endCaptures':
       '1':
         'name': 'punctuation.section.expression.end.zepto'
-      '2':
-        'name': 'meta.after-expression.zepto'
     'name': 'meta.quoted-expression.zepto'
     'patterns': [
       {
@@ -154,12 +152,10 @@
     'beginCaptures':
       '1':
         'name': 'punctuation.section.expression.begin.zepto'
-    'end': '(\\))(\\n)?'
+    'end': '(\\))'
     'endCaptures':
       '1':
         'name': 'punctuation.section.expression.end.zepto'
-      '2':
-        'name': 'meta.after-expression.zepto'
     'name': 'meta.expression.zepto'
     'patterns': [
       {
